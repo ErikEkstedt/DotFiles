@@ -1,10 +1,10 @@
 return {
-	{ 
-		'echasnovski/mini.nvim', 
-		version = '*',
-		config=function()
-			local statusline = require("mini.statusline")
-			statusline.setup {use_icons=true}
-		end
-	},
+  {
+    'echasnovski/mini.nvim',
+    version = '*',
+    config = function()
+      require("mini.statusline").setup({ use_icons = true })
+      require("mini.tabline").setup({ use_icons = true })
+    end
+  },
 }
