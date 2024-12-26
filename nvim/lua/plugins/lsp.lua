@@ -129,6 +129,30 @@ return {
       require("mason").setup()
       require("mason-lspconfig").setup()
       require("lspconfig").lua_ls.setup { capabilities = capabilities }
+      require 'lspconfig'.pyright.setup {
+        -- Overwriting this only to have a better order (i.e., pyright first)
+        -- Accidently had a setup.py in my home directory and all projects were thought to start there
+        -- This should not be the case of course but lets not check the entire system for files I
+        -- don't use as much as pyrightconfig.json / requirements.txt / setup
+        root_dir = function(fname)
+          local root_files = {
+            "pyrightconfig.json",
+            "requirements.txt",
+            "setup.py",
+            "pyproject.toml",
+            "setup.cfg",
+            ".git",
+            "Pipfile",
+          }
+          return require("lspconfig.util").root_pattern(unpack(root_files))(fname)
+        end,
+        settings = {
+          python = {
+            venvPath = vim.fn.expand("$HOME/miniconda3/envs"),
+            pythonPath = vim.g.python3_host_prog,
+          },
+        },
+      }
 
       -- Autocommand to format on save
       vim.api.nvim_create_autocmd('LspAttach', {

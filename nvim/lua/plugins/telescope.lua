@@ -23,6 +23,7 @@ return {
       require('telescope').load_extension('fzf')
       local bt = require('telescope.builtin')
       vim.keymap.set("n", "<space>fhe", bt.help_tags)
+      vim.keymap.set("n", "<space>fhi", bt.highlights)
       vim.keymap.set("n", "<space>ff", bt.find_files)
       vim.keymap.set("n", "<leader>fw", bt.live_grep)
       vim.keymap.set("n", "<leader>fg", bt.git_files)

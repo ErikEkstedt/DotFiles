@@ -11,14 +11,6 @@ vim.keymap.set("v", "<space>x", ":lua<CR>")
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Init lazy
-require("config.lazy")
-
--- Custom Settings not loaded by lazy
-require("config.diagnostics")
-local tmux = require("config.tmux")
-
-
 -- Options
 vim.opt.number = true
 vim.opt.expandtab = true -- Convert tabs to spaces
@@ -41,6 +33,17 @@ vim.opt.listchars = {
   extends = '▶',
   precedes = '◀',
 }
+
+-- Init lazy
+require("config.lazy")
+
+-- Custom Settings not loaded by lazy
+require("config.diagnostics")
+-- Mouse menu
+require("config.menu")
+local tmux = require("config.tmux")
+
+
 
 
 -- Mappings
