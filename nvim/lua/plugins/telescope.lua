@@ -27,6 +27,7 @@ return {
       vim.keymap.set("n", "<space>ff", bt.find_files)
       vim.keymap.set("n", "<leader>fw", bt.live_grep)
       vim.keymap.set("n", "<leader>fg", bt.git_files)
+      vim.keymap.set("n", "<leader>fk", bt.keymaps)
       vim.keymap.set("n", "<leader>fb", bt.buffers)
       vim.keymap.set("n", "<space>en", function()
         require('telescope.builtin').find_files {

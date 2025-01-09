@@ -1,7 +1,7 @@
-print("Minimal Config")
-
+-- Old config
+-- https://github.com/ErikEkstedt/.files/blob/lazy/nvim/.config/nvim/init.lua
 -- Neovim
-vim.keymap.set("n", "<space><space>x", "<cmd>source %<CR>")
+vim.keymap.set("n", "<space>xx", "<cmd>source %<CR>")
 vim.keymap.set("n", "<space>x", ":.lua<CR>")
 vim.keymap.set("v", "<space>x", ":lua<CR>")
 
@@ -20,10 +20,23 @@ vim.opt.tabstop = 4      -- Width of tab character
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevel = 99   -- Start with all folds open
 
+-- I: don't give the intro message when starting Vim, *shm-I* see |:intro|
+vim.opt.shortmess:append('I')
+
+
 -- Errors in numbers column should not change
 -- the width too much
 vim.opt.signcolumn = "yes:1"
 
+
+-- Faster time to execute command
+vim.opt.timeoutlen = 400 -- Time in milliseconds to wait for a mapped sequence to complete.
+
+
+-- Tab key behavior
+vim.keymap.set("v", "<Tab>", ">gv", { silent = true })
+vim.keymap.set("v", "<S-Tab>", "<gv", { silent = true })
+vim.keymap.set("i", "<S-Tab>", "<esc><<I", { silent = true })
 
 -- Optional: Show tabs and spaces
 vim.opt.list = true
@@ -40,10 +53,8 @@ require("config.lazy")
 -- Custom Settings not loaded by lazy
 require("config.diagnostics")
 -- Mouse menu
-require("config.menu")
+-- require("config.menu")
 local tmux = require("config.tmux")
-
-
 
 
 -- Mappings
@@ -66,14 +77,20 @@ vim.keymap.set("n", "*", "*<C-o>", ns)
 vim.keymap.set("n", "#", "#<C-o>", ns)
 
 -- Nice defaults save/exit
-vim.keymap.set("n", "<C-s>", ":w<CR>")
+vim.keymap.set("n", "<C-s>", "<cmd>w<CR>", ns)
 vim.keymap.set("n", "<C-c>", "<CR>")
+vim.keymap.set("n", "<C-q>", ":q!<CR>")
 vim.keymap.set("n", "<M-q>", ":q!<CR>")
 vim.keymap.set('n', '<C-c>', '"+y', ns) -- copy
 vim.keymap.set('v', '<C-c>', '"+y', ns)
 -- Does not work on my mac? Karabiner?
 -- vim.keymap.set('n', '<D-c>', '"+y', ns)
 -- vim.keymap.set('v', '<D-c>', '"+y', ns)
+
+-- Buffer movement
+-- vim.keymap.set("n", "<space><space>", "<cmd>b#<CR>")
+vim.keymap.set("n", "<space><space>", ":b#<CR>", ns)
+
 
 -- Format
 vim.keymap.set("n", "<space>fo", function() vim.lsp.buf.format() end)
