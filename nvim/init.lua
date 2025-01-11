@@ -20,8 +20,16 @@ vim.opt.tabstop = 4      -- Width of tab character
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevel = 99   -- Start with all folds open
 
+-- Makes visual block mode (C-v) work as expected
+vim.opt.virtualedit = "block"
+
+
 -- I: don't give the intro message when starting Vim, *shm-I* see |:intro|
 vim.opt.shortmess:append('I')
+
+-- Decides how new vertical/horizontal buffers open
+vim.opt.splitbelow = false
+vim.opt.splitright = true
 
 
 -- Errors in numbers column should not change
@@ -32,11 +40,6 @@ vim.opt.signcolumn = "yes:1"
 -- Faster time to execute command
 vim.opt.timeoutlen = 400 -- Time in milliseconds to wait for a mapped sequence to complete.
 
-
--- Tab key behavior
-vim.keymap.set("v", "<Tab>", ">gv", { silent = true })
-vim.keymap.set("v", "<S-Tab>", "<gv", { silent = true })
-vim.keymap.set("i", "<S-Tab>", "<esc><<I", { silent = true })
 
 -- Optional: Show tabs and spaces
 vim.opt.list = true
@@ -49,16 +52,28 @@ vim.opt.listchars = {
 
 -- Init lazy
 require("config.lazy")
+vim.cmd.colorscheme("catppuccin-frappe")
 
 -- Custom Settings not loaded by lazy
 require("config.diagnostics")
 -- Mouse menu
--- require("config.menu")
-local tmux = require("config.tmux")
 
+-- require("config.menu")
 
 -- Mappings
+-- Used for mapping commands
 local ns = { noremap = true, silent = true }
+
+
+-- TMUX
+vim.keymap.set("n", "<M-h>", function() require('config.tmux').move_left() end, ns)
+vim.keymap.set("n", "<M-j>", function() require('config.tmux').move_down() end, ns)
+vim.keymap.set("n", "<M-k>", function() require('config.tmux').move_up() end, ns)
+vim.keymap.set("n", "<M-l>", function() require('config.tmux').move_right() end, ns)
+
+-- Zoom
+vim.keymap.set("n", "<space>z", function() require('config.zoom').maximize_current_split() end, ns)
+
 
 -- Move end/start of line
 vim.keymap.set("n", "L", "$", ns)
@@ -75,6 +90,19 @@ vim.keymap.set("n", "gN", "#zvzz", ns)
 -- */# stays on current word
 vim.keymap.set("n", "*", "*<C-o>", ns)
 vim.keymap.set("n", "#", "#<C-o>", ns)
+
+-- Buffer movement
+vim.keymap.set("n", "<Leader>b", ":bp<CR>", ns)
+vim.keymap.set("n", "<Leader>n", ":bn<CR>", ns)
+vim.keymap.set("n", "<Leader>B", ":bf<CR>", ns)
+vim.keymap.set("n", "<Leader>N", ":bl<CR>", ns)
+vim.keymap.set("n", "<Leader><Leader>", ":b#<CR>", ns)
+-- vim.keymap.set("n", "<Leader>D", ":bd<CR>", ns)
+
+-- Tab key behavior
+vim.keymap.set("v", "<Tab>", ">gv", { silent = true })
+vim.keymap.set("v", "<S-Tab>", "<gv", { silent = true })
+vim.keymap.set("i", "<S-Tab>", "<esc><<I", { silent = true })
 
 -- Nice defaults save/exit
 vim.keymap.set("n", "<C-s>", "<cmd>w<CR>", ns)
@@ -94,12 +122,6 @@ vim.keymap.set("n", "<space><space>", ":b#<CR>", ns)
 
 -- Format
 vim.keymap.set("n", "<space>fo", function() vim.lsp.buf.format() end)
-
--- TMUX
-vim.keymap.set("n", "<M-h>", function() tmux.move_left() end, ns)
-vim.keymap.set("n", "<M-j>", function() tmux.move_down() end, ns)
-vim.keymap.set("n", "<M-k>", function() tmux.move_up() end, ns)
-vim.keymap.set("n", "<M-l>", function() tmux.move_right() end, ns)
 
 
 -- autocommands

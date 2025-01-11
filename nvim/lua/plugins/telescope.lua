@@ -16,7 +16,26 @@ return {
           },
           extensions = {
             fzf = {}
-          }
+          },
+          mappings = {
+            i = {
+              ["<c-x>"] = false,
+              ["<c-v>"] = false,
+              ["<c-l>"] = require("telescope.actions").select_vertical,
+              ["<c-j>"] = require("telescope.actions").select_horizontal,
+              ["<C-q>"] = require("telescope.actions").send_to_qflist,
+              -- ["<cr>"] = require("telescope.actions").select_default
+            },
+            n = {
+              -- ["q"] = require("telescope.actions").close,
+              -- ["<c-x>"] = false,
+              -- ["<c-v>"] = false,
+              ["<c-l>"] = require("telescope.actions").select_vertical,
+              ["<c-j>"] = require("telescope.actions").select_horizontal,
+              ["<C-q>"] = require("telescope.actions").close,
+              -- ["<cr>"] = require("telescope.actions").select_default
+            }
+          },
         }
       }
 
