@@ -3,27 +3,27 @@
 # Directory paths
 CONFIG_PATH="$HOME/.config"
 DOTFILES="$HOME/DotFiles"
-ZSH_DIR="$DOTFILES/zsh"
-
 
 
 ##############################################
 # ZSH
 ##############################################
+ZSH_DIR="$DOTFILES/zsh"
+# ZSH_LINK="$CONFIG_PATH/zsh"
 ln -sfv "$ZSH_DIR/.zshrc" "$HOME/.zshrc"
 # ln -sfv "$ZSH_DIR/.zshenv" "$HOME/.zshenv" 
 # ln -sfv "$ZSH_DIR/.zprofile" "$HOME/.zprofile"
 # ln -sfv "$ZSH_DIR/.zlogin" "$HOME/.zlogin"
 # ln -sfv "$ZSH_DIR/.zlogout" "$HOME/.zlogout"
-
 echo "Zsh config files linked successfully\n"
 
 ##############################################
-# KITTY
+# GHOSTTY
 ##############################################
-KITTY_DIR="$DOTFILES/kitty"
-ln -sfv "$KITTY_DIR/" "$CONFIG_PATH/kitty"
-echo "Kitty config files linked successfully\n"
+GHOSTTY_DIR="$DOTFILES/ghostty"
+GHOSTTY_LINK="$CONFIG_PATH/ghostty"
+ln -sfv $GHOSTTY_DIR $GHOSTTY_LINK
+echo "Ghostty config files linked successfully\n"
 
 ##############################################
 # TMUX
@@ -41,3 +41,10 @@ ln -sfv "$NVIM_DIR" "$CONFIG_PATH/nvim"
 echo "NVIM config files linked successfully\n"
 
 
+##############################################
+# YAZU
+##############################################
+YAZI_DIR="$DOTFILES/yazi"
+YAZI_LINK="$CONFIG_PATH/yazi"
+ln -sfv $YAZI_DIR $YAZI_LINK
+echo "Yazi config files linked successfully\n"
