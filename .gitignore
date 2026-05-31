@@ -1,1 +1,22 @@
-nvim/lazy-lock.json
+# macOS
+.DS_Store
+._*
+
+# Editor
+*.swp
+*.swo
+
+# Secrets (should never be here, but just in case)
+.env
+*.key
+*.pem
+*_rsa
+*_ed25519
+!*.pub
+secrets/
+
+# Neovim lazy-lock (can be noisy — remove this line to commit it)
+dots/nvim/lazy-lock.json
+
+# Yazi backup files
+*.toml-*

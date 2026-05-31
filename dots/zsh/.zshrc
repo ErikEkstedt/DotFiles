@@ -1,10 +1,12 @@
 # Export PATHS
 export PATH="$PATH:/opt/homebrew/bin"
-export PATH="$HOME/Applications:$PATH"                                   
+export PATH="$HOME/Applications:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.claude/bin:$PATH"
 
 
 # Exports
-export DOTFILES=$HOME/.files
+export DOTFILES=$HOME/dotfiles/dots
 export COLORTERM="truecolor"
 export EDITOR='nvim'
 export BROWSER="brave-browser"
@@ -16,7 +18,7 @@ export MANPAGER='nvim +Man!'
 # nvim
 alias v="nvim"
 # alias vs="nvim -c 'SessionLoad'"
-# alias vf="nvim -c 'Telescope find_files hidden=true'"
+alias vf="nvim -c 'Telescope find_files hidden=true'"
 # alias vno="nvim -c 'Telescope find_files hidden=true cwd=~/zettelkasten'"
 
 # Git
@@ -35,22 +37,52 @@ alias wnvi="watch -n 1 nvidia-smi"
 alias wnvi2="watch -n 1 nvidia-smi --query-gpu=index,memory.used,memory.total,power.draw --format=csv"
 
 ###########################################################
-# LS Commands
+# LS / Directory Listing (eza)
 ###########################################################
-if [[ $(uname) == 'Darwin' ]] && command -v gls &> /dev/null; then
-    alias ll="gls -l --color"
-    alias ld="gls -ld */ --color"
-    alias la="gls -A -1 --group-directories-first --color"
-    alias lsf="gls -1 --group-directories-first --color"
-    alias lrt="gls -lrt --color"
+if command -v eza &>/dev/null; then
+    alias ll="eza -l --icons --git"
+    alias la="eza -la --icons --git"
+    alias lt="eza --tree --icons -L 2"
+    alias lrt="eza -l --icons --git --sort=modified"
+    alias ld="eza -lD --icons"
 else
-    alias ll="ls -l --group-directories-first"
-    alias ld="ls -ld */"
-    alias la="ls -A -1 --group-directories-first"
-    alias lla="ls -la --group-directories-first"
-    alias lrt="ls -lrt"
+    if [[ $(uname) == 'Darwin' ]]; then
+        alias ll="ls -Gl --color"
+        alias la="ls -GA -1 --group-directories-first --color"
+        alias lrt="ls -Glrt --color"
+    else
+        alias ll="ls -l --group-directories-first"
+        alias la="ls -A -1 --group-directories-first"
+        alias lrt="ls -lrt"
+    fi
 fi
 
+
+###########################################################
+# Navigation (fzf + zoxide)
+###########################################################
+# fzf — fuzzy history (ctrl-r), file (ctrl-t), dir (alt-c)
+if command -v fzf &>/dev/null; then
+    source <(fzf --zsh)
+fi
+
+# zoxide — smart cd that learns your most-visited dirs
+if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init zsh)"
+fi
+
+###########################################################
+# SSH Agent
+###########################################################
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)" > /dev/null 2>&1
+    [ -f "$HOME/.ssh/id_ed25519" ] && ssh-add "$HOME/.ssh/id_ed25519" 2>/dev/null
+fi
+
+###########################################################
+# Secrets (not committed — lives at ~/.config/secrets/env.sh)
+###########################################################
+[ -f "$HOME/.config/secrets/env.sh" ] && source "$HOME/.config/secrets/env.sh"
 
 ###########################################################
 # Completions
@@ -58,8 +90,6 @@ fi
 # This seems like a good resource: https://thevaluable.dev/zsh-completion-guide-examples/
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-
-# Highlight the current autocomplete option
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # Highlights the common pattern from the completion query
 # zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")';
@@ -188,14 +218,20 @@ alias sod="conda deactivate"
 zle -N so
 
 ##############################################################
-# TMUX
+# TMUX — auto-attach in interactive shells (not VSCode remote)
 ##############################################################
-if [ "$TMUX" = "" ]; then
-  if tmux has-session -t=Terminal 2> /dev/null; then
+if [[ $- == *i* ]] && [[ -z "$VSCODE_INJECTION" ]] && [[ -z "$TMUX" ]]; then
+  if tmux has-session -t=Terminal 2>/dev/null; then
     tmux attach -t Terminal
   else
     tmux new-session -s Terminal
   fi
-fi # }}}
+fi
 
 
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<

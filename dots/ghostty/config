@@ -1,6 +1,10 @@
 # vim: ft=toml
-theme = catppuccin-frappe
+# theme = catppuccin-frappe
+theme = MaterialDarker
 
 # font-family = "JetBrainsMono Nerd Font Mono"
 # font-family = "SauceCodePro Nerd Font Mono"
 font-family = "Mononoki Nerd Font"
+
+# https://ghostty.org/docs/config
+# Reloaded at runtime by pressing `ctrl/cmd+shift+,`

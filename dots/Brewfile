@@ -1,0 +1,33 @@
+# Brewfile — macOS packages
+# Run: brew bundle install --file=dots/Brewfile
+
+# Shell & terminal
+brew "zsh"
+brew "tmux"
+brew "ghostty"  # or install via cask if unavailable as formula
+
+# Editor
+brew "neovim"
+
+# Git
+brew "git"
+brew "lazygit"
+brew "git-delta"
+brew "gh"
+
+# Navigation & search
+brew "fzf"
+brew "zoxide"
+brew "eza"
+brew "yazi"
+brew "ripgrep"
+brew "fd"
+
+# Utilities
+brew "curl"
+brew "wget"
+brew "jq"
+brew "just"
+
+# Python (miniconda preferred — install manually via bootstrap.sh)
+# brew "python"
