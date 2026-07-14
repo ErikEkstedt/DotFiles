@@ -2,16 +2,21 @@
 # Copy to ~/.ssh/config and fill in your host details.
 # install.sh creates this file automatically if ~/.ssh/config doesn't exist.
 
+# macOS Keychain integration — auto-loads keys, no passphrase prompts
+# Run once to store: ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+Host *
+    AddKeysToAgent yes
+    UseKeychain yes
+    IdentityFile ~/.ssh/id_ed25519
+
 # Dev server (fill in after provisioning)
 Host devserver
     HostName <ip-or-hostname>
     User <username>
-    IdentityFile ~/.ssh/id_ed25519
     ServerAliveInterval 60
     ServerAliveCountMax 3
     ForwardAgent yes
 
-# GitHub (no changes needed)
+# GitHub
 Host github.com
-    IdentityFile ~/.ssh/id_ed25519
-    AddKeysToAgent yes
+    HostName github.com

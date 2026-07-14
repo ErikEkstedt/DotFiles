@@ -4,10 +4,12 @@
 # Shell & terminal
 brew "zsh"
 brew "tmux"
-brew "ghostty"  # or install via cask if unavailable as formula
+# ghostty manages its own updates — install manually from https://ghostty.org
+# cask "ghostty"
 
 # Editor
 brew "neovim"
+brew "node" # npm comes bundled with this
 
 # Git
 brew "git"

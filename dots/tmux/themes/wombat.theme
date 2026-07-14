@@ -11,4 +11,4 @@ other_text='#a89984'
 message_text='#ABB2BF'
 message_bg=$window_status_bg2
 
-source-file ~/DotFiles/tmux/statusline.theme
+source-file ~/.config/tmux/statusline.theme

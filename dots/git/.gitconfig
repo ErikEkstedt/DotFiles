@@ -13,6 +13,7 @@
 	editor = nvim
 	pager = delta
 	excludesfile = ~/.gitignore_global
+	fsmonitor = true
 
 [delta]
 	navigate = true

@@ -19,6 +19,12 @@ vim.opt.softtabstop = 4  -- Number of spaces per tab
 vim.opt.tabstop = 4      -- Width of tab character
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevel = 99   -- Start with all folds open
+vim.opt.wrap = false
+vim.opt.scrolloff = 10   -- Always keep 10 rows visible above/below the cursor
+
+-- Pick up file edits made on disk (e.g. by an external tool) silently,
+-- instead of prompting to confirm the reload.
+vim.opt.autoread = true
 
 -- Makes visual block mode (C-v) work as expected
 vim.opt.virtualedit = "block"

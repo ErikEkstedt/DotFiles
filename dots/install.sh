@@ -35,6 +35,7 @@ symlink "$DOTS/nvim"                    "$CONFIG/nvim"
 # Multiplexer
 symlink "$DOTS/tmux"                    "$CONFIG/tmux"
 symlink "$DOTS/tmux/tmux.conf"          "$HOME/.tmux.conf"
+symlink "$DOTS/herdr/config.toml"       "$CONFIG/herdr/config.toml"
 
 # Terminal
 symlink "$DOTS/ghostty"                 "$CONFIG/ghostty"

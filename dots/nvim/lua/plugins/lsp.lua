@@ -37,7 +37,7 @@ return {
         'saghen/blink.cmp',
         dependencies = {
           'rafamadriz/friendly-snippets',
-          "giuxtaposition/blink-cmp-copilot",
+          { "giuxtaposition/blink-cmp-copilot", enabled = false },
         },
         version = '*',
         opts = {
@@ -69,23 +69,25 @@ return {
             ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
           },
           sources = {
-            default = { "lsp", "path", "snippets", "buffer", "copilot" },
+            -- "copilot" removed from defaults: not authenticated, was erroring on every
+            -- completion. Provider config kept below, disabled, in case it's wired back up.
+            default = { "lsp", "path", "snippets", "buffer" },
             providers = {
-              copilot = {
-                name = "copilot",
-                module = "blink-cmp-copilot",
-                score_offset = 100,
-                async = true,
-                transform_items = function(_, items)
-                  local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-                  local kind_idx = #CompletionItemKind + 1
-                  CompletionItemKind[kind_idx] = "Copilot"
-                  for _, item in ipairs(items) do
-                    item.kind = kind_idx
-                  end
-                  return items
-                end,
-              },
+              -- copilot = {
+              --   name = "copilot",
+              --   module = "blink-cmp-copilot",
+              --   score_offset = 100,
+              --   async = true,
+              --   transform_items = function(_, items)
+              --     local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+              --     local kind_idx = #CompletionItemKind + 1
+              --     CompletionItemKind[kind_idx] = "Copilot"
+              --     for _, item in ipairs(items) do
+              --       item.kind = kind_idx
+              --     end
+              --     return items
+              --   end,
+              -- },
             },
           },
           -- Blink does not expose its default kind icons so you must copy them all (or set your custom ones) and add Copilot
@@ -105,6 +107,7 @@ return {
       },
       {
         "zbirenbaum/copilot.lua",
+        enabled = false, -- not authenticated; was throwing an auth error on InsertEnter
         event = { "InsertEnter" },
         build = ":Copilot auth",
         opts = {
@@ -128,7 +131,16 @@ return {
       local capabilities = require('blink.cmp').get_lsp_capabilities()
       require("mason").setup()
       require("mason-lspconfig").setup()
-      require("lspconfig").lua_ls.setup { capabilities = capabilities }
+      require("lspconfig").lua_ls.setup {
+        capabilities = capabilities,
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
+            },
+          },
+        },
+      }
       require 'lspconfig'.pyright.setup {
         -- Overwriting this only to have a better order (i.e., pyright first)
         -- Accidently had a setup.py in my home directory and all projects were thought to start there

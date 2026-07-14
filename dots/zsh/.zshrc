@@ -76,8 +76,11 @@ fi
 ###########################################################
 if [ -z "$SSH_AUTH_SOCK" ]; then
     eval "$(ssh-agent -s)" > /dev/null 2>&1
-    [ -f "$HOME/.ssh/id_ed25519" ] && ssh-add "$HOME/.ssh/id_ed25519" 2>/dev/null
 fi
+# Keys are NOT loaded here — ssh-add opens /dev/tty for passphrase prompts
+# which corrupts the terminal before tmux starts.
+# macOS: run once → ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+# Linux: run once → ssh-add ~/.ssh/id_ed25519
 
 ###########################################################
 # Secrets (not committed — lives at ~/.config/secrets/env.sh)
@@ -220,13 +223,13 @@ zle -N so
 ##############################################################
 # TMUX — auto-attach in interactive shells (not VSCode remote)
 ##############################################################
-if [[ $- == *i* ]] && [[ -z "$VSCODE_INJECTION" ]] && [[ -z "$TMUX" ]]; then
-  if tmux has-session -t=Terminal 2>/dev/null; then
-    tmux attach -t Terminal
-  else
-    tmux new-session -s Terminal
-  fi
-fi
+# if [[ $- == *i* ]] && [[ -z "$TMUX" ]] && [[ "${TERM_PROGRAM:-}" != "vscode" ]] && [[ -z "${VSCODE_INJECTION:-}" ]]; then
+#   if tmux has-session -t=Terminal 2>/dev/null; then
+#     tmux attach -t Terminal
+#   else
+#     tmux new-session -s Terminal
+#   fi
+# fi
 
 
 
